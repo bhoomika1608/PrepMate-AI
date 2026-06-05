@@ -12,18 +12,13 @@ connectDB();
 const app = express();
 
 // Middleware
-const allowedOrigin = process.env.CORS_ORIGIN || '*';
 app.use(cors({
-  origin: allowedOrigin === '*' ? '*' : (origin, callback) => {
-    if (!origin || origin === allowedOrigin) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  credentials: true,
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
+
 
 
 // Routes

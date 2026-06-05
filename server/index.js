@@ -12,11 +12,19 @@ connectDB();
 const app = express();
 
 // Middleware
+const allowedOrigin = process.env.CORS_ORIGIN || '*';
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: allowedOrigin === '*' ? '*' : (origin, callback) => {
+    if (!origin || origin === allowedOrigin) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
+
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
